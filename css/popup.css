@@ -1,0 +1,60 @@
+body {
+  width: 400px;
+  height: auto;
+  overflow: scroll;
+  font-family: Verdana, sans-serif;
+}
+
+h2 {
+  text-align: center;
+}
+
+tr.collapse.in {
+  display:table-row;
+}
+
+.bootstrap-datetimepicker-widget tr:hover {
+  background-color: #eee;
+}
+
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.input-group {
+    padding: 10px 10px;
+    width: 100%;
+    background-color: #2F3130;
+    text-align: center;
+}
+
+.input-group.toggle {
+    padding: 10px 10px;
+    width: 100%;
+    background-color: #42aae1;
+    text-align: center;
+}
+
+#planningFilter {
+  background-color: #2F3130;
+  outline: 0px;
+  color: #FFF;
+}
+
+#planningFilter.toggle {
+  background-color: #42aae1;
+  outline: 0px;
+  color: #FFF;
+}
+
+#office {
+  max-width: 100%;
+  height: 100px;
+}
+
+#weeklyDatePicker {
+  text-align: center;
+}

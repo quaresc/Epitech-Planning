@@ -1,0 +1,45 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+
+<head>
+    <title>Epitech - Planning</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popup.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/icsFormatter.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/popup.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col form-group">
+                <div class="input-group" id="DateDemo">
+                  <button id="planningFilter" type="button" class="btn btn-lg btn-block">Aujourd'hui</button>
+                  <input type='text' class="form-control" id='weeklyDatePicker' placeholder="Changer de semaine" />
+                </div>
+                <div id="info">
+                </div>
+                <table class="table">
+                  <tbody id="planning">
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
