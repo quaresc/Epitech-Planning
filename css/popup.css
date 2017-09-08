@@ -61,13 +61,15 @@ tr.collapse.in {
 }
 
 #planningFilter {
-  background-color: #2F3130;
-  outline: 0px;
-  color: #FFF;
+    background-color: #424242;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    outline: 0px;
+    color: #FFF;
 }
 
 #planningFilter.toggle {
-  background-color: #42aae1;
+  background-color: #358cba;
   outline: 0px;
   color: #FFF;
 }
@@ -82,5 +84,6 @@ tr.collapse.in {
 }
 
 #weeklyDatePicker {
-  text-align: center;
+    border-radius: 20px;
+    text-align: center;
 }
