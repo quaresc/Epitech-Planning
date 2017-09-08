@@ -113,27 +113,25 @@ function getLink(data) {
 }
 
 function downloadPlanning() {
-  'use strict';
-  
-  var ical = require(["js/ical-generator/"]),
-      cal = ical({
-        domain: 'intra.epitech.eu',
-        prodId: '//clement.quaresma//Epitech-Planning//FR',
-        name: 'Epitech-Planning'  
-      });
-  
+  var planning = "BEGIN:VCALENDAR\r\n" +
+    "VERSION:2.0\r\n" +
+    "PRODID:-//quaresc/epitechplanning//NONSGML v1.0//EN\r\n";
+
   $.each(registeredEvents, function(i, item) {
-    var eventBegin = new Date(registeredEvents[i].start),
-        eventEnding = new Date(registeredEvents[i].end),
-        event = cal.createEvent({
-          start: eventBegin,
-          end: eventEnding,
-          summary: registeredEvents[i].acti_title,
-          description: registeredEvents[i].acti_title,
-          url: getLink(registeredEvents[i])
-        });
+    var event = 
+    "BEGIN:VEVENT\r\n" +
+    "UID:" + moment(new Date()).format("YYYYMMDD") + "T" + moment(registeredEvents[i].start).format("HHmmss") + "\r\n" +
+    "DTSTAMP:" + moment(new Date()).format("YYYYMMDD") + "T" + moment(registeredEvents[i].start).format("HHmmss") + "\r\n" +
+    "DTSTART:" + moment(registeredEvents[i].start).format("YYYYMMDD") + "T" + moment(registeredEvents[i].start).format("HHmmss") + "Z\r\n" +
+    "DTEND:" + moment(registeredEvents[i].end).format("YYYYMMDD") + "T" + moment(registeredEvents[i].end).format("HHmmss") + "Z\r\n" +
+    "SUMMARY:" + registeredEvents[i].acti_title + "\r\n" +
+    "END:VEVENT\r\n";
+    
+    planning += event;
   });
-  window.open("data:text/calendar;charset=utf8," + escape(cal.toString()));
+  
+  planning += "END:VCALENDAR\r\n";
+  window.open("data:text/calendar;charset=utf8," + escape(planning));
 }
 
 function displayPlanning() {
