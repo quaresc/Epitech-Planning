@@ -25,6 +25,7 @@ var office365 = "https://login.microsoftonline.com/common/oauth2/authorize?respo
 var firstDate;
 var lastDate;
 var registeredEvents;
+var mode = 0;
 
 $(document).ready(function() {
 
@@ -41,17 +42,22 @@ $(document).ready(function() {
         $("#planning").empty();
         $("#info").empty();
         getTodayPlanning();
+	$("#planningFilter").text("Semaine du :");
     });
     
     $('#planningFilter').click(function() {
 	$(this).toggleClass('toggle');
 	$(".input-group").toggleClass('toggle');
-	if ($("#planningFilter").html() == "Cette semaine") {
-            $("#planningFilter").html("Aujourd'hui");
+	if (mode) {
+	    mode = 0;
+	    $("#weeklyDatePicker").val("");
+            $("#planningFilter").text("Aujourd'hui");
             firstDate = null;
             lastDate = null;
 	} else {
-            $("#planningFilter").html("Cette semaine");
+	    mode = 1;
+	    $("#weeklyDatePicker").val("");
+            $("#planningFilter").text("Cette semaine");
             firstDate = moment(todayDate, "YYYY-MM-DD").day(1).format("DD-MM-YYYY");
             lastDate = moment(todayDate, "YYYY-MM-DD").day(7).format("DD-MM-YYYY");
 	}
@@ -173,6 +179,7 @@ function displayPlanning() {
 
 function getTodayPlanning() {
     var url;
+    
     if (!firstDate && !lastDate) {
         url = 'https://intra.epitech.eu/planning/load?format=json&start=' +
             todayDate + '&end=' + todayDate;
@@ -181,7 +188,6 @@ function getTodayPlanning() {
             moment(firstDate, "DD-MM-YYYY").format("YYYY-MM-DD") + '&end=' + moment(lastDate, "DD-MM-YYYY").format("YYYY-MM-DD");
     }
 
-    console.log(url);
     var req = new XMLHttpRequest();
     req.open('GET', url, true);
 
