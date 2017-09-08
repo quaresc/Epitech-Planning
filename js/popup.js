@@ -52,8 +52,8 @@ $(document).ready(function() {
             lastDate = null;
 	} else {
             $("#planningFilter").html("Cette semaine");
-            firstDate = moment(todayDate, "DD-MM-YYYY").day(1).format("DD-MM-YYYY");
-            lastDate = moment(todayDate, "DD-MM-YYYY").day(7).format("DD-MM-YYYY");
+            firstDate = moment(todayDate, "YYYY-MM-DD").day(1).format("DD-MM-YYYY");
+            lastDate = moment(todayDate, "YYYY-MM-DD").day(7).format("DD-MM-YYYY");
 	}
 	$("#planning").empty();
 	$("#info").empty();
