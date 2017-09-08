@@ -6,9 +6,13 @@
   "version": "1.0",
 
   "browser_action" : {
-    "default_icon": "images/icon.png",
+    "default_icon": "images/icon-48.png",
     "default_popup": "popup.html"
   },
+  
+  "icons": { "16": "images/icon-16.png",
+          "48": "images/icon-48.png",
+          "128": "images/icon-128.png" },
   
   "permissions": ["https://intra.epitech.eu/planning/load?format=json*", "storage"]
 }

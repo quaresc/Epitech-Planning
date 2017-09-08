@@ -26,7 +26,7 @@ var firstDate;
 var lastDate;
 var registeredEvents;
 
-$(function() {
+$(document).ready(function() {
 
     $("#weeklyDatePicker").datetimepicker({
         format: 'YYYY-MM-DD',
@@ -52,12 +52,18 @@ $(function() {
         lastDate = null;
       } else {
         $("#planningFilter").html("Cette semaine");
-        firstDate = todayDate;
+        firstDate = moment(todayDate, "YYYY-MM-DD").day(1).format("YYYY-MM-DD");
         lastDate = moment(todayDate, "YYYY-MM-DD").day(7).format("YYYY-MM-DD");
       }
       $("#planning").empty();
       $("#info").empty();
       getTodayPlanning();
+    });
+    
+    $("#download").click(function(){
+      if (registeredEvents.length > 0) {
+        downloadPlanning();
+      }
     });
 });
 
@@ -104,6 +110,30 @@ function getLink(data) {
     return ('<a target=_blank" href="https://intra.epitech.eu/module/' +
         data.scolaryear + '/' + data.codemodule + '/' + data.codeinstance +
         '/' + data.codeacti + '">' + data.acti_title + '</a>');
+}
+
+function downloadPlanning() {
+  'use strict';
+  
+  var ical = require(["js/ical-generator/"]),
+      cal = ical({
+        domain: 'intra.epitech.eu',
+        prodId: '//clement.quaresma//Epitech-Planning//FR',
+        name: 'Epitech-Planning'  
+      });
+  
+  $.each(registeredEvents, function(i, item) {
+    var eventBegin = new Date(registeredEvents[i].start),
+        eventEnding = new Date(registeredEvents[i].end),
+        event = cal.createEvent({
+          start: eventBegin,
+          end: eventEnding,
+          summary: registeredEvents[i].acti_title,
+          description: registeredEvents[i].acti_title,
+          url: getLink(registeredEvents[i])
+        });
+  });
+  window.open("data:text/calendar;charset=utf8," + escape(cal.toString()));
 }
 
 function displayPlanning() {
@@ -171,7 +201,7 @@ function getTodayPlanning() {
             }
             if (this.status === 401) {
                 $('<h2>').text("Connectez vous !").appendTo('#planning');
-                $('#planning').prepend('<a target="_blank" href="' + office365 + '"><img id="office" src="images/office365.png" /></a>');
+                $('#planning').prepend('<a target="_blank" href="' + office365 + '"><img id="office" class="img-fluid" src="images/office365.png"/></a>');
             }
         }
     };
