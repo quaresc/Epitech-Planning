@@ -29,42 +29,41 @@ var registeredEvents;
 $(document).ready(function() {
 
     $("#weeklyDatePicker").datetimepicker({
-        format: 'YYYY-MM-DD',
+        format: 'DD-MM-YYYY',
         locale: 'fr'
     });
-
+    
     $('#weeklyDatePicker').on('dp.change', function(e) {
         var value = $("#weeklyDatePicker").val();
-        firstDate = moment(value, "YYYY-MM-DD").day(1).format("YYYY-MM-DD");
-        lastDate = moment(value, "YYYY-MM-DD").day(7).format("YYYY-MM-DD");
-        $("#weeklyDatePicker").val(moment(firstDate).format("DD-MM-YYYY") + " - " +
-				   moment(lastDate).format("DD-MM-YYYY"));
+        firstDate = moment(value, "DD-MM-YYYY").day(1).format("DD-MM-YYYY");
+        lastDate = moment(value, "DD-MM-YYYY").day(7).format("DD-MM-YYYY");
+        $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
         $("#planning").empty();
         $("#info").empty();
         getTodayPlanning();
     });
     
     $('#planningFilter').click(function() {
-      $(this).toggleClass('toggle');
-      $(".input-group").toggleClass('toggle');
-      if ($("#planningFilter").html() == "Cette semaine") {
-        $("#planningFilter").html("Aujourd'hui");
-        firstDate = null;
-        lastDate = null;
-      } else {
-        $("#planningFilter").html("Cette semaine");
-        firstDate = moment(todayDate, "YYYY-MM-DD").day(1).format("YYYY-MM-DD");
-        lastDate = moment(todayDate, "YYYY-MM-DD").day(7).format("YYYY-MM-DD");
-      }
-      $("#planning").empty();
-      $("#info").empty();
-      getTodayPlanning();
+	$(this).toggleClass('toggle');
+	$(".input-group").toggleClass('toggle');
+	if ($("#planningFilter").html() == "Cette semaine") {
+            $("#planningFilter").html("Aujourd'hui");
+            firstDate = null;
+            lastDate = null;
+	} else {
+            $("#planningFilter").html("Cette semaine");
+            firstDate = moment(todayDate, "DD-MM-YYYY").day(1).format("DD-MM-YYYY");
+            lastDate = moment(todayDate, "DD-MM-YYYY").day(7).format("DD-MM-YYYY");
+	}
+	$("#planning").empty();
+	$("#info").empty();
+	getTodayPlanning();
     });
     
     $("#download").click(function(){
-      if (registeredEvents.length > 0) {
-        downloadPlanning();
-      }
+	if (registeredEvents.length > 0) {
+            downloadPlanning();
+	}
     });
 });
 
@@ -179,7 +178,7 @@ function getTodayPlanning() {
             todayDate + '&end=' + todayDate;
     } else {
         url = 'https://intra.epitech.eu/planning/load?format=json&start=' +
-            firstDate + '&end=' + lastDate;
+            moment(firstDate, "DD-MM-YYYY").format("YYYY-MM-DD") + '&end=' + moment(lastDate, "DD-MM-YYYY").format("YYYY-MM-DD");
     }
 
     console.log(url);
