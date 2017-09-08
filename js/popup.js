@@ -37,7 +37,8 @@ $(document).ready(function() {
         var value = $("#weeklyDatePicker").val();
         firstDate = moment(value, "YYYY-MM-DD").day(1).format("YYYY-MM-DD");
         lastDate = moment(value, "YYYY-MM-DD").day(7).format("YYYY-MM-DD");
-        $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
+        $("#weeklyDatePicker").val(moment(firstDate).format("DD-MM-YYYY") + " - " +
+				   moment(lastDate).format("DD-MM-YYYY"));
         $("#planning").empty();
         $("#info").empty();
         getTodayPlanning();
