@@ -13,7 +13,7 @@ tr.collapse.in {
   display:table-row;
 }
 
-.bootstrap-datetimepicker-widget tr:hover {
+#weeklyDatePicker tr:hover {
   background-color: #eee;
 }
 
@@ -21,7 +21,7 @@ tr.collapse.in {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100px;
+  max-width: 200px;
 }
 
 .input-group {
@@ -38,16 +38,6 @@ tr.collapse.in {
     text-align: center;
 }
 
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.42;
-  border-radius: 15px;
-}
-
 .table {
   margin-bottom: 0px !important;
 }
@@ -57,15 +47,28 @@ tr.collapse.in {
 }
 
 .borderless td, .borderless th {
-    border: none !important;
+  border: none !important;
+}
+
+#menuButton {
+  background-color: #3279b6;
+  border-radius: 0px;
+  margin-top: 10px;
+  padding: 6px;
+  outline: 0px;
+  color: #FFF;
+}
+
+#exportMenu {
+  position: relative;
 }
 
 #planningFilter {
-    background-color: #424242;
-    border-radius: 20px;
-    margin-bottom: 10px;
-    outline: 0px;
-    color: #FFF;
+  background-color: #424242;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  outline: 0px;
+  color: #FFF;
 }
 
 #planningFilter.toggle {
@@ -76,11 +79,6 @@ tr.collapse.in {
 
 #office {
   width: 100%;
-}
-
-#download {
-  float: right;
-  padding: 6px 0;
 }
 
 #weeklyDatePicker {
