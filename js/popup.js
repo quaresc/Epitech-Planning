@@ -42,12 +42,14 @@ $(document).ready(function() {
     
     $('#exportFrom').on('dp.change', function(e) {
         var value = $("#exportFrom").val();
+        $('#exportTo').data('DateTimePicker').minDate(exportFrom);
         exportFrom = moment(value, "DD-MM-YYYY").format("DD-MM-YYYY");
         $("#exportFrom").val(exportFrom);
     });
     
     $('#exportTo').on('dp.change', function(e) {
         var value = $("#exportTo").val();
+        $('#exportFrom').data('DateTimePicker').maxDate(exportTo);
         exportTo = moment(value, "DD-MM-YYYY").format("DD-MM-YYYY");
         $("#exportTo").val(exportTo);
     });
@@ -112,6 +114,22 @@ function getCurrentWeek() {
     lastDate = moment(todayDate, "YYYY-MM-DD").day(7).format("DD-MM-YYYY");
 }
 
+function getEventStart(event, format) {
+  if (event.rdv_group_registered) {
+    return (moment(event.rdv_group_registered.substring(0, event.rdv_group_registered.indexOf('|'))).format(format));
+  } else {
+    return (moment(event.start).format(format));
+  }
+}
+
+function getEventEnd(event, format) {
+  if (event.rdv_group_registered) {
+    return (moment(event.rdv_group_registered.substring(event.rdv_group_registered.indexOf('|') + 1)).format(format));
+  } else {
+    return (moment(event.end).format(format));
+  }
+}
+
 function getRegisteredEvents(result) {
     var results = [];
 
@@ -150,19 +168,19 @@ function downloadPlanning() {
 }
 
 function createICAL() {
+  
       $.each(registeredEvents, function(i, item) {
         
-      console.log(registeredEvents[i].acti_title);
+        if (registeredEvents[i].rdv_group_registered) {
+          console.log(registeredEvents[i].rdv_group_registered.substring(registeredEvents[i].rdv_group_registered.indexOf('|') + 1));
+        }
           var event =
               "BEGIN:VEVENT\r\n" +
               "UID:" + moment(registeredEvents[i].start).format("YYYYMMDD") + "T" +
               moment(registeredEvents[i].start).format("HHmmss") + "\r\n" +
-              "DTSTAMP:" + moment(registeredEvents[i].start).format("YYYYMMDD") + "T" +
-              moment(registeredEvents[i].start).format("HHmmss") + "\r\n" +
-              "DTSTART:" + moment(registeredEvents[i].start).format("YYYYMMDD") + "T" +
-              moment(registeredEvents[i].start).format("HHmmss") + "\r\n" +
-              "DTEND:" + moment(registeredEvents[i].end).format("YYYYMMDD") + "T" +
-              moment(registeredEvents[i].end).format("HHmmss") + "\r\n" +
+              "DTSTAMP:" + getEventStart(registeredEvents[i], "YYYYMMDD") + "T" + getEventStart(registeredEvents[i], "HHmmss") + "\r\n" +
+              "DTSTART:" + getEventStart(registeredEvents[i], "YYYYMMDD") + "T" + getEventStart(registeredEvents[i], "HHmmss") + "\r\n" +
+              "DTEND:" + getEventEnd(registeredEvents[i], "YYYYMMDD") + "T" + getEventEnd(registeredEvents[i], "HHmmss") + "\r\n" +
               "SUMMARY:" + registeredEvents[i].acti_title + "\r\n" +
               "LOCATION:" + registeredEvents[i].room.code.substring(registeredEvents[i].room.code.lastIndexOf("/") + 1) + "\r\n" +
               "END:VEVENT\r\n";
@@ -171,7 +189,6 @@ function createICAL() {
       });
   
       planning += "END:VCALENDAR\r\n";
-      
       
       var planningData = new Blob([planning], {
           type: 'text/calendar;charset=utf-8;'
@@ -213,8 +230,8 @@ function displayPlanning() {
 
                 $('<tr class="collapse in day' + start.getDay() + ' event' + i + '">').append(
                     $('<td class="title">').append(getLink(registeredEvents[i])),
-                    $('<td class="start">').text(start.getHours() + "h" + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes()),
-                    $('<td class="end">').text(end.getHours() + "h" + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes()),
+                    $('<td class="start">').text(getEventStart(registeredEvents[i], "HH:mm")),
+                    $('<td class="end">').text(getEventEnd(registeredEvents[i], "HH:mm")),
                     $('<td class="room">').text(registeredEvents[i].room.code.substring(registeredEvents[i].room.code.lastIndexOf("/") + 1))
                 ).appendTo('#planning');
 
@@ -222,7 +239,6 @@ function displayPlanning() {
                     $(".event" + i).addClass("bg-success");
                 }
             });
-
         });
     }
 }
@@ -241,6 +257,7 @@ function getPlanning(start, end, callback) {
                 var json = req.responseText;
                 var result = JSON.parse(json);
                 registeredEvents = getRegisteredEvents(result);
+                console.log(registeredEvents);
                 callback();
             }
             if (this.status === 401) {

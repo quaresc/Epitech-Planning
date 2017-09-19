@@ -13,10 +13,6 @@ tr.collapse.in {
   display:table-row;
 }
 
-#weeklyDatePicker tr:hover {
-  background-color: #eee;
-}
-
 .title {
   white-space: nowrap;
   overflow: hidden;
@@ -84,4 +80,9 @@ tr.collapse.in {
 #weeklyDatePicker {
     border-radius: 20px;
     text-align: center;
+    background-color: #eee;
+}
+
+#weeklyDatePicker tr:hover {
+  background-color: #eee;
 }
